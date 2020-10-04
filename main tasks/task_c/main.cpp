@@ -3,6 +3,12 @@
 
 using namespace std;
 
+int countPartitions(int n, int k) {
+    if (k > n) return countPartitions(n, n);
+    if (k == 0 && n == 0) return 1;
+    if (n != 0 && k == 0) return 0;
+    return countPartitions(n - k, k) + countPartitions(n, k - 1);
+};
 
 int main() {
     int n = 0, k = 0;
@@ -10,18 +16,5 @@ int main() {
     cin >> n;
     cout << "Input k:" << endl;
     cin >> k;
-    int *partitionsCounters = new int[n + 1];
-    memset(partitionsCounters, 0, sizeof(int) * (n + 1));
-
-
-    partitionsCounters[0] = partitionsCounters[1] = 1;
-    for (int i = 2; i < n + 1; ++i) {
-        for (int j = 1; j < k && i - j > 0 && j <= i - j; ++j) {
-            partitionsCounters[i] += partitionsCounters[i - j];
-        }
-        ++partitionsCounters[i];
-    }
-    for(int i = 0; i < n + 1; i++)
-        cout <<" " << partitionsCounters[i];
-
+    cout << "Number of partitions = " << countPartitions(n,k);
 }
