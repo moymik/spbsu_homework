@@ -1,0 +1,3 @@
+C:/git/spbsu_homework/main tasks/task_O/cmake-build-debug/CMakeFiles/task_O.dir
+C:/git/spbsu_homework/main tasks/task_O/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/git/spbsu_homework/main tasks/task_O/cmake-build-debug/CMakeFiles/rebuild_cache.dir
