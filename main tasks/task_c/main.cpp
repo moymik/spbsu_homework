@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string.h>
+#include <ctime>
 
 using namespace std;
 /*
@@ -50,7 +50,5 @@ int main() {
     cin >> n;
     cout << "Input k:" << endl;
     cin >> k;
-
-
     cout << "Number of partitions = " << countPartitions(n, k);
 }

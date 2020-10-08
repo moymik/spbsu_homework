@@ -6,9 +6,11 @@
 
 #IncludeRegexTransform: 
 
-C:/git/spbsu_homework/main tasks/task_c/main.cpp
+C:/moymik/spbsu_homework-1/main tasks/task_c/main.cpp
 iostream
 -
 string.h
+-
+ctime
 -
 
