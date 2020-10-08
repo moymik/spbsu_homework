@@ -2,42 +2,46 @@
 #include <ctime>
 
 using namespace std;
-
-
-int countPartitionsIterative(int n, int k)
-{
-    unsigned long long** partitionsCounters = new unsigned long long*[n + 1];
+/*
+ * P(n,k)=
+ * {
+ * P(n, k-1) + P(n - k, k)     (k <= n)
+ * P(n, n)  (k>n)
+ * 0    (n != 0, k = 0)
+ * 1    (n = 0, k = 0)
+ * }
+ */
+unsigned long long countPartitions(int n, int k) {
+    unsigned long long **counters = new unsigned long long *[n + 1];
     for (int i = 0; i < n + 1; ++i)
-        partitionsCounters[i] = new unsigned long long[k + 1];
+        counters[i] = new unsigned long long[k + 1];
+    for (int i = 0; i < n + 1; ++i) {
+        for (int j = 0; j < k + 1; ++j) {
+            counters[i][j] = 0;
+        }
+    }
 
-    for (int i = 0; i <= n; ++i) {
-        for (int j = 0; j <= k; ++j) {
-
-            if (i == 0 && j == 0) {
-                partitionsCounters[i][j] = 1;
-            } else if (j == 0) {
-                partitionsCounters[i][j] = 0;
-            } else if (j > i) {
-                partitionsCounters[i][j] = partitionsCounters[i][i];
+    for (int i = 0; i < n + 1; ++i) {
+        for (int j = 0; j < k + 1; ++j) {
+            if (j == 0) {
+                if (i == 0) {
+                    counters[i][j] = 1;
+                }
             } else {
-                partitionsCounters[i][j] = partitionsCounters[i][j - 1] + partitionsCounters[i - j][j];
+                if (j > i) {
+                    counters[i][j] = counters[i][i];
+                } else {
+                    counters[i][j] = counters[i - j][j] + counters[i][j - 1];
+                }
             }
         }
     }
-    unsigned long long counter = partitionsCounters[n][k];
-
-    for (int i = 0; i < n; ++i)
-        delete[] partitionsCounters[i];
-    delete[] partitionsCounters;
-
-    return counter;
-}
-
-int countPartitions(int n, int k) {
-    if (k > n) return countPartitions(n, n);
-    if (k == 0 && n == 0) return 1;
-    if (n != 0 && k == 0) return 0;
-    return countPartitions(n - k, k) + countPartitions(n, k - 1);
+    unsigned long long result;
+    result = counters[n][k];
+    for (int i = 0; i < n + 1; ++i)
+        delete[] counters[i];
+    delete[] counters;
+    return result;
 };
 
 int main() {
@@ -46,13 +50,5 @@ int main() {
     cin >> n;
     cout << "Input k:" << endl;
     cin >> k;
-    unsigned long long startTime = clock();
-    cout << "Number of partitions(recursive) = " << countPartitions(n,k);
-    unsigned long long endTime = clock();
-    cout << endl << "Time: " << endTime - startTime << endl;
-
-    startTime = clock();
-    cout << "Number of partitions(iterative) = " << countPartitionsIterative(n, k);
-    endTime = clock();
-    cout << endl << "Time: " << endTime - startTime << endl;
+    cout << "Number of partitions = " << countPartitions(n, k);
 }
